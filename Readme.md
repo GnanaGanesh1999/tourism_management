@@ -29,6 +29,7 @@ This can be done onetime, and can be avoided in the subsequent runs.
 
 #### Setting up the backend
 ```bash
+cd backend
 cargo run --release
 ```
 
