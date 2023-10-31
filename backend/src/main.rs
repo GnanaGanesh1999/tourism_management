@@ -1,14 +1,24 @@
+extern crate diesel;
+extern crate rocket;
+extern crate rocket_contrib;
 
-use diesel::prelude::*;
-use diesel::mysql::MysqlConnection;
-use dotenv::dotenv;
-use std::env;
+use rocket::{launch, routes};
 
-fn main() {
-    dotenv().ok();
+mod api;
+mod models;
+mod schema;
+mod types;
+mod utils;
+mod views;
 
-    let database_url = env::var("DATABASE_URL")
-        .expect("DATABASE_URL must be set");
-    MysqlConnection::establish(&database_url)
-        .unwrap_or_else(|_| panic!("Error connecting to {}", database_url));
+use api::tour_operator::{create_tour_operator, get_tour_operators};
+use api::tourist::{create_tourist, get_tourists};
+use api::tour::{create_tour, get_tours};
+
+#[launch]
+fn rocket() -> _ {
+    rocket::build()
+        .mount("/tourist", routes![create_tourist, get_tourists])
+        .mount("/tour-operator", routes![create_tour_operator, get_tour_operators])
+        .mount("/tour", routes![create_tour, get_tours])
 }

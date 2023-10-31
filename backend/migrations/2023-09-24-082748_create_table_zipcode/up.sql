@@ -2,6 +2,7 @@
 
 CREATE TABLE Zipcode (
     zipcode INT PRIMARY KEY,
-    state VARCHAR(255),
-    city VARCHAR(255)
+    state_code VARCHAR(255) NOT NULL,
+    city VARCHAR(255) NOT NULL,
+    country VARCHAR(255) NOT NULL
 );

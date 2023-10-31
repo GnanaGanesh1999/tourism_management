@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:9.6
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: root
+      POSTGRES_DB: touristdb
+    ports:
+      - 5432:5432
+    volumes:
+      - tourist_db:/var/lib/postgresql/data
+  # backend:
+  #   restart: always
+  #   build: ./backend
+  #   volumes:
+  #     - tourist_backend:/usr/src/tourist
+  #   depends_on:
+  #     - db
+
+volumes:
+  tourist_db:
+  # tourist_backend:

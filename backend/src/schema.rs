@@ -1,103 +1,110 @@
 // @generated automatically by Diesel CLI.
 
 diesel::table! {
-    Address (id) {
-        id -> Integer,
+    address (id) {
+        id -> Int4,
         #[max_length = 255]
-        flat_number -> Nullable<Varchar>,
+        flat_number -> Varchar,
         #[max_length = 255]
-        street -> Nullable<Varchar>,
-        zipcode -> Nullable<Integer>,
+        street -> Varchar,
+        #[max_length = 6]
+        zip_code -> Varchar,
     }
 }
 
 diesel::table! {
-    Customer (id) {
-        id -> Integer,
+    customer (mail_id) {
         #[max_length = 255]
-        password -> Nullable<Varchar>,
+        mail_id -> Varchar,
         #[max_length = 255]
-        name -> Nullable<Varchar>,
-        address_id -> Nullable<Integer>,
+        customer_password -> Varchar,
+        #[max_length = 255]
+        customer_name -> Varchar,
+        address_id -> Int4,
     }
 }
 
 diesel::table! {
-    Location (id) {
-        id -> Integer,
+    location (id) {
+        id -> Int4,
         #[max_length = 255]
-        location -> Nullable<Varchar>,
+        location_name -> Varchar,
+        #[max_length = 255]
+        location_description -> Varchar,
     }
 }
 
 diesel::table! {
-    Tour (id) {
-        id -> Integer,
-        capacity -> Nullable<Integer>,
-        cost -> Nullable<Decimal>,
-        number_of_days -> Nullable<Integer>,
-        tour_operator_id -> Nullable<Integer>,
+    tour (id) {
+        id -> Int4,
+        #[max_length = 255]
+        capacity -> Varchar,
+        #[max_length = 255]
+        cost -> Varchar,
+        #[max_length = 255]
+        number_of_days -> Varchar,
+        #[max_length = 255]
+        tour_start_date -> Varchar,
+        #[max_length = 255]
+        end_date -> Varchar,
+        #[max_length = 255]
+        tour_name -> Varchar,
+        #[max_length = 255]
+        tour_description -> Varchar,
+        #[max_length = 255]
+        tour_operator_id -> Varchar,
     }
 }
 
 diesel::table! {
-    TourBooking (booking_id) {
-        booking_id -> Integer,
-        customer_id -> Nullable<Integer>,
-        tour_id -> Nullable<Integer>,
+    tourbooking (booking_id) {
+        booking_id -> Int4,
         #[max_length = 255]
-        status -> Nullable<Varchar>,
+        customer_mail_id -> Varchar,
+        tour_id -> Int4,
+        #[max_length = 255]
+        tour_booking_status -> Varchar,
+        booking_date -> Date,
     }
 }
 
 diesel::table! {
-    TourOperator (id) {
-        id -> Integer,
+    touroperator (mail_id) {
         #[max_length = 255]
-        mail_id -> Nullable<Varchar>,
+        mail_id -> Varchar,
         #[max_length = 255]
-        password -> Nullable<Varchar>,
+        tour_operator_password -> Varchar,
         #[max_length = 255]
-        name -> Nullable<Varchar>,
+        tour_operator_name -> Varchar,
     }
 }
 
 diesel::table! {
-    Zipcode (zipcode) {
-        zipcode -> Integer,
+    zipcode (zip_code) {
+        #[max_length = 6]
+        zip_code -> Varchar,
         #[max_length = 255]
-        state -> Nullable<Varchar>,
+        state_code -> Varchar,
         #[max_length = 255]
-        city -> Nullable<Varchar>,
+        city -> Varchar,
+        #[max_length = 255]
+        country -> Varchar,
     }
 }
 
-diesel::table! {
-    sys_config (variable) {
-        #[max_length = 128]
-        variable -> Varchar,
-        #[max_length = 128]
-        value -> Nullable<Varchar>,
-        set_time -> Nullable<Timestamp>,
-        #[max_length = 128]
-        set_by -> Nullable<Varchar>,
-    }
-}
-
-diesel::joinable!(Address -> Zipcode (zipcode));
-diesel::joinable!(Customer -> Address (address_id));
-diesel::joinable!(Location -> Tour (id));
-diesel::joinable!(Tour -> TourOperator (tour_operator_id));
-diesel::joinable!(TourBooking -> Customer (customer_id));
-diesel::joinable!(TourBooking -> Tour (tour_id));
+diesel::joinable!(address -> zipcode (zip_code));
+diesel::joinable!(customer -> address (address_id));
+diesel::joinable!(location -> tour (id));
+diesel::joinable!(tour -> touroperator (tour_operator_id));
+diesel::joinable!(tourbooking -> customer (customer_mail_id));
+diesel::joinable!(tourbooking -> tour (tour_id));
 
 diesel::allow_tables_to_appear_in_same_query!(
-    Address,
-    Customer,
-    Location,
-    Tour,
-    TourBooking,
-    TourOperator,
-    Zipcode,
-    sys_config,
+    address,
+    customer,
+    location,
+    tour,
+    tourbooking,
+    touroperator,
+    zipcode,
 );
