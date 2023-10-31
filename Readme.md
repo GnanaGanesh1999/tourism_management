@@ -23,7 +23,9 @@ This command helps to run the Database. It creates a volume when it is running t
 #### Installing the diesel-cli
 ```bash
 cargo install diesel_cli --no-default-features --features postgres
+diesel migration run
 ```
+This can be done onetime, and can be avoided in the subsequent runs.
 
 #### Setting up the backend
 ```bash
